@@ -3,8 +3,8 @@ version: 2
 sources:
   - name: treasury
     description: Treasury data from PostgreSQL
-    database: airflow
-    schema: public
+    database: cashflow-analytics-prototype  # Replace with your BigQuery project ID
+    schema: treasury_dw
     tables:
       - name: acdoca
         description: Sample ACDOCA transactions
