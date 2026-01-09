@@ -1,0 +1,115 @@
+version: 2
+
+sources:
+  - name: treasury
+    description: Treasury data from PostgreSQL
+    database: airflow
+    schema: public
+    tables:
+      - name: acdoca
+        description: Sample ACDOCA transactions
+        columns:
+          - name: id
+            description: Unique transaction identifier
+            tests:
+              - unique
+              - not_null
+          - name: company_code
+            description: Company code (M415, M416, M417)
+            tests:
+              - not_null
+          - name: local_amount
+            description: Transaction amount in local currency
+            tests:
+              - not_null
+
+      - name: acdoca_jnj
+        description: JNJ real ACDOCA transactions (2014-2023)
+        columns:
+          - name: id
+            description: Unique transaction identifier
+            tests:
+              - unique
+              - not_null
+          - name: company_code
+            description: Company code (JNJ1, JNJ2, etc.)
+            tests:
+              - not_null
+
+      - name: bank_statements
+        description: Bank statement transactions
+        columns:
+          - name: id
+            description: Unique statement identifier
+            tests:
+              - unique
+              - not_null
+          - name: company_code
+            description: Company code
+            tests:
+              - not_null
+
+      - name: fx_rates
+        description: Foreign exchange rates
+        columns:
+          - name: id
+            tests:
+              - unique
+              - not_null
+
+      - name: cashflow_statement
+        description: Existing cashflow statement (to be replaced by dbt)
+        columns:
+          - name: id
+            tests:
+              - unique
+              - not_null
+
+models:
+  - name: stg_acdoca
+    description: Cleaned and standardized ACDOCA transactions (sample + JNJ)
+    columns:
+      - name: transaction_id
+        description: Unique transaction identifier
+        tests:
+          - unique
+          - not_null
+      - name: company_code
+        description: Company code
+        tests:
+          - not_null
+      - name: posting_date
+        description: Transaction posting date
+        tests:
+          - not_null
+      - name: amount_local
+        description: Transaction amount in local currency
+        tests:
+          - not_null
+      - name: cashflow_category
+        description: Cashflow category (OPERATING, INVESTING, FINANCING, etc.)
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['OPERATING', 'INVESTING', 'FINANCING', 'HEDGING', 'UNCLASSIFIED']
+
+  - name: stg_bank_statements
+    description: Cleaned and standardized bank statements
+    columns:
+      - name: statement_id
+        description: Unique statement identifier
+        tests:
+          - unique
+          - not_null
+      - name: company_code
+        description: Company code
+        tests:
+          - not_null
+      - name: statement_date
+        description: Bank statement date
+        tests:
+          - not_null
+      - name: amount
+        description: Transaction amount
+        tests:
+          - not_null

@@ -1,0 +1,28 @@
+# profiles.yml.example
+# Copy this to profiles.yml and fill in your credentials
+# DO NOT commit profiles.yml to git!
+
+treasury_dbt:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: localhost
+      port: 54321
+      user: YOUR_USERNAME
+      password: YOUR_PASSWORD
+      dbname: cashflow_db
+      schema: public_analytics
+      threads: 4
+      keepalives_idle: 0
+
+    prod:
+      type: postgres
+      host: YOUR_PROD_HOST
+      port: 5432
+      user: YOUR_PROD_USERNAME
+      password: YOUR_PROD_PASSWORD
+      dbname: cashflow_db
+      schema: public_analytics
+      threads: 8
+      keepalives_idle: 0
