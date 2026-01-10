@@ -19,7 +19,8 @@ aggregated as (
         fiscal_year,
         fiscal_quarter,
         fiscal_month,
-        to_char(posting_date, 'YYYY-MM') as period_month,
+       FORMAT_DATE('%Y-%m', posting_date) as period_month,
+
 
         -- Business dimensions
         company_code,
