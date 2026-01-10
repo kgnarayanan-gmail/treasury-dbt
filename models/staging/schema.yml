@@ -57,13 +57,7 @@ sources:
               - unique
               - not_null
 
-      - name: cashflow_statement
-        description: Existing cashflow statement (to be replaced by dbt)
-        columns:
-          - name: id
-            tests:
-              - unique
-              - not_null
+    
 
 models:
   - name: stg_acdoca
